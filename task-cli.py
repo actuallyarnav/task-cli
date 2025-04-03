@@ -1,8 +1,9 @@
 import os
 import json
 import argparse
-from tasks import add_task, delete_task, update_task, mark_task, list_tasks
+from tasks import add_task, delete_task, update_task, mark_task, list_tasks, clear_tasks
 
+#creates a tasks.json file if it doesnt exist
 TASKS_FILE = 'tasks.json'
 if not os.path.exists(TASKS_FILE):
     with open(TASKS_FILE, 'w') as file:
@@ -33,6 +34,9 @@ mark_parser = subparsers.add_parser('mark', help = "mark a task as todo, in-prog
 mark_parser.add_argument('task_id', type=int, help = "id of the task to mark")
 mark_parser.add_argument('status', choices=['todo', 'in-progress', 'complete'], help='status of the task')
 
+clear_parser = subparsers.add_parser('clr', help = "deletes the list of tasks")
+
+
 args = parser.parse_args()
 
 if args.command == "add":
@@ -54,3 +58,6 @@ elif args.command == "update":
 elif args.command == "mark":
     print(f"Marking task ID: {args.task_id} as '{args.status}'")
     mark_task(args.task_id, args.status)
+elif args.command == "clr":
+    print("Deleting the entire list")
+    clear_tasks()
